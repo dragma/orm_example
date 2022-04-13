@@ -1,0 +1,45 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Mesure {
+  id Int @id @default(autoincrement())
+
+  temperature   Float
+  pression      Int
+  altitude      Int
+  taux_humidite Float
+  latitide      Float
+  longitude     Float
+
+  date_mesure    DateTime @default(now())
+  date_reception DateTime
+
+  Ballon   Ballon? @relation(fields: [ballonId], references: [id])
+  ballonId Int?
+}
+
+model Ballon {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Mesures Mesure[]
+
+  PosteCommande   PosteCommande? @relation(fields: [posteCommandeId], references: [id])
+  posteCommandeId Int?
+}
+
+model PosteCommande {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Ballons Ballon[]
+}
