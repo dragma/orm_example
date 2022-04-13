@@ -192,3 +192,14 @@ const posteCommande = await prisma.posteCommande.findFirst({
   },
 });
 ```
+
+ou
+
+```
+const { PosteCommande: posteCommande } = await prisma.ballon.findUnique({
+  where: {
+    id: Number(id),
+  },
+  select: { PosteCommande: true },
+});
+```
